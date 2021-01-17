@@ -1,0 +1,192 @@
+/*************
+* Chapter 4  *
+*************/
+LIBNAME MYLIB '/folders/myfolders/mylib';
+
+DATA MYLIB.discrete;
+	A_1 = PDF('BINOMIAL', 1, 0.05, 100);
+	A_2 = CDF('BINOMIAL', 10, 0.05, 100);
+	B_1 = PDF('HYPER', 0, 1000, 50, 10);
+	B_2 = CDF('HYPER', 5, 1000, 50, 10)-CDF('HYPER', 2, 1000, 50, 10);
+	C_1 = PDF('POISSON', 1, 5);
+	C_2 = CDF('POISSON', 10, 5);
+	D_1 = PDF('NORMAL',2,0,1);
+	E_1 = PDF('NEGBIMONIAL',4,0.35,6);
+	E_2 = PDF('GEOMETRIC',9,0.2);
+	F_1 = PROBNEGB(0.35,6,4);
+	F_2 = PROBNEGB(0.2,1,9);
+	G_1 = CDF('NEGBINOMIAL',4,0.35,6);
+	G_2 = CDF('GEOMETRIC',9,0.2);
+RUN;
+PROC PRINT DATA=MYLIB.discrete;
+RUN;
+DATA MYLIB.prob;
+	A_2 = PROBBNML(0.05, 100, 10);
+	B_2 = PROBHYPR(1000, 50, 10, 5)-PROBHYPR(1000, 50, 10, 2);
+	C_2 = POISSON(5, 10);
+RUN;
+PROC PRINT DATA=MYLIB.prob;
+RUN;
+
+DATA MYLIB.continue;
+	A_1 = CDF('NORMAL', -1.6449,  0, 1);
+	A_2 = PROBIT(0.05);
+	B_1 = CDF('T', 1.6449, 50)-CDF('T', -1.6449, 50);
+	B_2 = TINV(0.05, 50);
+	C_1 = 1-CDF('CHISQUARED', 1, 5);
+	C_2 = CDF('F', 1, 3, 10);
+	D_1 = CDF('F', 1, 3, 10);
+	D_2 = FINV(0.05, 3, 10);
+RUN;
+PROC PRINT DATA=MYLIB.continue;
+RUN;
+DATA MYLIB.prob;
+	A_1 = PROBNORM(-1.6449);
+	B_1 = PROBT(1.6449, 50)-PROBT(-1.6449, 50);
+	C_1 = 1-PROBCHI(1, 5);
+	D_1 = PROBF(1, 3, 10);
+RUN;
+PROC PRINT DATA=MYLIB.prob;
+RUN; 
+
+
+____________________________
+
+LIBNAME exam "C:\";
+/* 추정 */
+/* 모평균 구간추정 */
+DATA MYLIB.csi;
+	INPUT csi @@;
+	LABEL csi='소비자 만족도 지수';
+	CARDS;
+	75 63 49 86 53 80 70 72 81 80 69 76 85 95 66 77 77 
+	63 58 74 68 90 82 59 60
+	;
+RUN;
+
+PROC UNIVARIATE DATA=MYLIB.csi CIBASIC ALPHA=0.05   ;
+	VAR csi;
+RUN;
+
+PROC MEANS DATA=MYLIB.csi N MEAN VAR STD CLM ALPHA=0.05; /*기본적으로 평균에 대한 신뢰구간만 나온다*/
+	VAR csi; /*CLS*/
+RUN;
+
+/* 모비율 구간추정 */
+DATA MYLIB.poll ;
+	INPUT yesno $ count ;
+	CARDS ;
+	YES 250
+	N0 150
+	;
+RUN;
+
+PROC FREQ DATA=MYLIB.poll ORDER=DATA;
+	WEIGHT count;
+	EXACT BINOMIAL;
+	TABLES yesno / ALPHA=0.05;
+RUN ;
+
+PROC FREQ DATA=MYLIB.poll ORDER=FORMATTED ;
+	WEIGHT count ;
+	EXACT BINOMIAL ;
+	TABLES yesno / ALPHA=0.05 ;
+RUN ;
+
+
+
+
+PROC FREQ DATA=MYLIB.poll ORDER=FREQ ; /*ORDER=FREQ 하면 빈도수가 많은 것부터 먼저 나옴*/
+	WEIGHT count ;
+	EXACT BINOMIAL ;
+	TABLES yesno / ALPHA=0.05 ;
+RUN ;
+
+PROC FREQ DATA=MYLIB.poll ORDER=INTERNAL ; /*알파벳순*/
+	WEIGHT count ;
+	EXACT BINOMIAL ;
+	TABLES yesno / ALPHA=0.05 ;
+RUN ;
+
+DATA MYLIB.FORMATTED;
+	INPUT AB $ COUNT;
+	CARDS;
+	B 65
+	A 35
+	;
+RUN;
+
+PROC SORT DATA=MYLIB.FORMATTED;
+	BY DESCENDING AB;
+RUN;
+
+PROC FREQ DATA=MYLIB.FORMATTED;
+	WEIGHT COUNT;
+	EXACT BINOMIAL;
+	TABLES AB / ALPHA = 0.05;
+RUN;
+
+PROC UNIVARIATE DATA=MYLIB.CSI CIBASIC ALPHA=0.05;
+	VAR CSI;
+RUN;
+
+PROC MEANS DATA=MYLIB.CSI N MEAN VAR STD CLM ALPHA=0.05;
+	VAR CSI;
+RUN;
+
+/* 검정 */
+/* 모평균 t-검정 */
+PROC TTEST DATA=MYLIB.csi H0=70 ALPHA=0.05;
+	VAR csi;
+RUN;
+
+PROC UNIVARIATE DATA=MYLIB.CSI MU0=70 ALPHA=0.05 CIBASIC;
+	VAR csi;
+RUN;
+
+PROC UNIVARIATE DATA=MYLIB.csi MU0=70; /*신뢰구간 출력X*/
+	VAR csi;
+RUN;
+
+/* 모비율 검정 */
+DATA MYLIB.goods;
+    INPUT state $ count @@;
+	CARDS;
+	Poor 54
+	Good 346
+	;
+RUN;
+
+PROC FREQ DATA=MYLIB.GOODS ORDER=DATA;
+	WEIGHT COUNT;
+	EXACT BINOMIAL;
+	TABLES STATE / BINOMIAL(P=0.15) ALPHA=0.05;
+RUN;
+
+PROC FREQ DATA=MYLIB.goods ORDER=DATA;
+	WEIGHT COUNT;
+	EXACT BINOMIAL;
+	TABLES state / BINOMIAL (P=0.15) ALPHA=0.05;
+RUN;
+
+/* 모분산 검정 */
+/* SAS에 코드가 없어서 직접 만들어야 함.*/
+PROC MEANS DATA=MYLIB.csi n mean var std;
+	VAR csi;
+	OUTPUT OUT=MYLIB.out_csi MEAN (csi)=m_csi VAR (csi)=v_csi;
+RUN;
+
+PROC PRINT DATA=MYLIB.out_csi;
+RUN;
+
+DATA MYLIB.out_csi;
+	SET MYLIB.out_csi;
+	p_value = 1 - CDF('CHISQUARED', v_csi*(_FREQ_ - 1)/81 ,(_FREQ_ - 1));
+	statistic = v_csi*(_FREQ_ - 1)/81;
+	chi0 = cinv(0.95,24);
+RUN;
+
+PROC PRINT DATA=MYLIB.out_csi;
+RUN;
+
+
