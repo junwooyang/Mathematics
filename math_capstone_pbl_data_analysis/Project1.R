@@ -39,6 +39,9 @@ library(lmtest)
 library(het.test)
 library(sandwich)
 
+require(graphics)
+require(tikzDevice)
+
 # Setting and import data set
 getwd()
 setwd("/Users/sannul/Google Drive(sannul@hanyang.ac.kr)/Mathematics/Math Capstone PBL (Data Analysis)/Project 1")
@@ -145,72 +148,73 @@ summary(lm(rndratio~ceoage, rndceo2017))
 coef(lm(rndratio~size, rndceo2017))
 
 cor.test(rndceo2017$ceotenure, rndceo2017$rndratio, method="kendall")
-
+g+theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
 # Plot of between R&D ratio and independent variables
 p1 <- ggplot(rndceo2017t, aes(x=size, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=4, y=0.8, label="R-squared:  0.07436") +
-  labs(x="Size", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Size", y=NULL) +
+  theme_linedraw(base_size = 16)
 p2 <- ggplot(rndceo2017t, aes(x=bm, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
   coord_cartesian(xlim = c(-3,3)) +
-  #geom_text(x=-2.3, y=0.8, label="R-squared:  0.009016") +
-  labs(x="BM", y="R&D ratio")
+  labs(x="BM", y=NULL) +
+  theme_linedraw(base_size = 16)
 p3 <- ggplot(rndceo2017t, aes(x=fcf, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  coord_cartesian(xlim = c(min(rndceo2017$fcf),1)) +
-  #geom_text(x=-0.6, y=0.8, label="R-squared:  0.0005925") +
-  labs(x="FCF", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  coord_cartesian(xlim = c(min(rndceo2017t$fcf),1)) +
+  labs(x="FCF", y=NULL) +
+  theme_linedraw(base_size = 16)
 p4 <- ggplot(rndceo2017t, aes(x=hhi, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  coord_cartesian(xlim = c(min(rndceo2017$hhi),0.3)) +
-  #geom_text(x=0.05, y=0.8, label="R-squared:  0.02198") +
-  labs(x="HHI", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  coord_cartesian(xlim = c(min(rndceo2017t$hhi),0.3)) +
+  labs(x="HHI", y=NULL) +
+  theme_linedraw(base_size = 16)
 p5 <- ggplot(rndceo2017t, aes(x=opperf, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=-0.6, y=0.8, label="R-squared:  0.004678") +
-  labs(x="Operating performance", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Operating performance", y=NULL) +
+  theme_linedraw(base_size = 16)
 p6 <- ggplot(rndceo2017t, aes(x=leverage, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=-8.5, y=0.8, label="R-squared:  0.04347") +
-  labs(x="Leverage", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Leverage", y=NULL) +
+  theme_linedraw(base_size = 16)
 p7 <- ggplot(rndceo2017t, aes(x=tobinsq, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=2.5, y=0.8, label="R-squared:  0.1474") +
-  labs(x="Tobin's Q", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Tobin's Q", y=NULL) +
+  theme_linedraw(base_size = 16)
 p8 <- ggplot(rndceo2017t, aes(x=salesgrowth, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=-0.5, y=0.8, label="R-squared:  0.004201") +
-  labs(x="Sales growth", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Sales growth", y=NULL) +
+  theme_linedraw(base_size = 16)
 p9 <- ggplot(rndceo2017t, aes(x=cashratio, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=-10.3, y=0.8, label="R-squared:  0.1574") +
-  labs(x="Cash ratio", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Cash ratio", y=NULL) +
+  theme_linedraw(base_size = 16)
 p10 <- ggplot(rndceo2017t, aes(x=intan, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=0.12, y=0.8, label="R-squared:  0.05728") +
-  labs(x="Intangibility", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Intangibility", y=NULL) +
+  theme_linedraw(base_size = 16)
 p11 <- ggplot(rndceo2017t, aes(x=invest, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=-5, y=0.8, label="R-squared:  0.08387") +
-  labs(x="Investment ratio", y="R&D ratio")
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Investment ratio", y=NULL) +
+  theme_linedraw(base_size = 16)
 p12 <- ggplot(rndceo2017t, aes(x=ceoage, y=rndratio)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  #geom_text(x=39.5, y=0.8, label="R-squared:  0.002723") +
-  labs(x="CEO's age", y="R&D ratio")
-multiplot(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, cols=3)
+  geom_point(color='black', cex=.4) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="CEO's age", y=NULL) +
+  theme_linedraw(base_size = 16)
+multiplot(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, cols=4)
 
 
 # Boxplots of dummy variables
@@ -223,15 +227,17 @@ state3[state3$state=="CA","state"] <- "California"
 state3[state3$state=="MA","state"] <- "Massachusetts"
 state3
 
-statebox <- ggplot(data=state3, aes(x=state, y=rndratio, group=state)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="State", y="R&D ratio")
+statebox0 <- ggplot(data=rndceo2017, aes(x=state, y=rndratio, group=state)) +
+  geom_boxplot(fill='#4292C6',color='black',width=0.7) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 statebox1 <- ggplot(data=state3, aes(x=state, y=rndratio, group=state)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="State", y="R&D ratio")
+  geom_boxplot(fill='#4292C6',color='black',width=0.5) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 var.test(rndratio~state, state3[state3$state!="Complements",])
 t.test(rndratio~state, state3[state3$state!="Complements",], var.equal=T)
@@ -244,9 +250,10 @@ t.test(rndratio~state, state3[state3$state!="California",])
 
 state3[(state3$state=="California")|(state3$state=="Massachusetts"),"state"] <- "California and Massachusetts"
 statebox2 <- ggplot(data=state3, aes(x=state, y=rndratio, group=state)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="State", y="R&D ratio")
+  geom_boxplot(fill='#4292C6',color='black',width=0.4) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 var.test(rndratio~state, state3)
 t.test(rndratio~state, state3)
@@ -264,19 +271,22 @@ boxplot[boxplot$femaleceo==1,"femaleceo"] <- "Female"
 boxplot[boxplot$femaleceo==0,"femaleceo"] <- "Male"
 
 b1 <- ggplot(data=boxplot, aes(x=femaleceo, y=rndratio, group=femaleceo)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="Female CEO", y="R&D ratio")
+  geom_boxplot(fill='#4292C6',color='black',width=0.5) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 b2 <- ggplot(data=boxplot, aes(x=insiderceo, y=rndratio, group=insiderceo)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="Insider CEO", y="R&D ratio")
+  geom_boxplot(fill='#4292C6',color='black',width=0.5) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 b3 <- ggplot(data=boxplot, aes(x=divpay, y=rndratio, group=divpay)) +
-  geom_boxplot(fill='orange',color='darkslategrey',width=0.8) +
-  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="blue") +
-  labs(x="Dividends paid", y="R&D ratio")
+  geom_boxplot(fill='#4292C6',color='black',width=0.5) +
+  stat_summary(fun="mean", geom="point", shape=22, size=4, fill="red") +
+  labs(x=NULL, y=NULL) +
+  theme_linedraw(base_size = 20)
 
 multiplot(b1, b2, b3, cols=3)
 
@@ -295,26 +305,33 @@ pieinsider <- aggregate(rndratio~insiderceo, boxplot, length)
 piedivpay <- aggregate(rndratio~divpay, boxplot, length)
 scale_fill_manual(values = mycols)
 
+
+RColorBrewer::brewer.pal(n = 5, name = "Blues")
+
 pc1 <- ggplot(piefemale, aes(x="", y=rndratio, fill=femaleceo)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  scale_fill_manual(values = c("darkslategrey","orange")) +
+  geom_bar(stat="identity") + #, width=1, color="white") +
+  scale_fill_manual(values = c("#3182BD","#EFF3FF")) +
   coord_polar("y", start=0) +
-  labs(title = "Female CEO") +
-  theme_void() # remove background, grid, numeric labels
+  theme_void(base_size = 28) + # remove background, grid, numeric labels
+  labs(title=NULL, x=NULL, y=NULL, fill=NULL) +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
 
 pc2 <- ggplot(pieinsider, aes(x="", y=rndratio, fill=insiderceo)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  scale_fill_manual(values = c("darkslategrey","orange")) +
+  geom_bar(stat="identity") + #, width=1, color="white") +
+  scale_fill_manual(values = c("#3182BD","#EFF3FF")) +
   coord_polar("y", start=0) +
-  labs(title = "Insider CEO") +
-  theme_void() # remove background, grid, numeric labels
+  theme_void(base_size = 28) + # remove background, grid, numeric labels
+  labs(title=NULL, x=NULL, y=NULL, fill=NULL) +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
 
 pc3 <- ggplot(piedivpay, aes(x="", y=rndratio, fill=divpay)) +
-  geom_bar(stat="identity", width=1, color="white") +
-  scale_fill_manual(values = c("darkslategrey","orange")) +
+  geom_bar(stat="identity") + #, width=1, color="white") +
+  scale_fill_manual(values = c("#3182BD","#EFF3FF")) +
   coord_polar("y", start=0) +
-  labs(title = "Dividends paid") +
-  theme_void() # remove background, grid, numeric labels
+  theme_void(base_size = 28) + # remove background, grid, numeric labels
+  labs(title=NULL, x=NULL, y=NULL, fill=NULL) +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom")
+
 multiplot(pc1, pc2, pc3, cols=3)
 
 ch <- rndceo2017
@@ -349,17 +366,27 @@ M1 <- cor_51$r
 p_mat1 <- cor_51$P
 par(mfrow=c(1,1))
 corrplot(M1, type = "upper", order = "hclust", tl.col = "black", tl.srt = 45,
-         col = colorRampPalette(c("darkslategrey","white","orange"))(200),
+         col = colorRampPalette(c("#9C5308","#D6936B","#FFFBEF","#EFF3FF","#6BAED6","#08519C"))(200),
          p.mat = p_mat1, sig.level = 0.05, diag = FALSE)
-corrplot(M1, method = "color", col = colorRampPalette(c("darkslategrey","white","orange"))(200),
+corrplot(M1, method = "color",
+         col = colorRampPalette(c("#9C5308","#D6936B","#FFFBEF","#EFF3FF","#6BAED6","#08519C"))(200),
+         #col = colorRampPalette(c("#9C5308","white","#08519C"))(200),
          type = "upper", order = "hclust",
          addCoef.col = "black", # Add coefficient of correlation
-         tl.col = "black", tl.srt = 45, #Text label color and rotation
+         tl.col = "black", tl.srt = 45, tl.cex = 1.3, #Text label color and rotation
          # Combine with significance level
          p.mat = p_mat1, sig.level = 0.05,
          # hide correlation coefficient on the principal diagonal
          diag = FALSE)
-
+##
+corrplot(M1, method = "color", col = colorRampPalette(c("#9C5308","#D6936B","#FFFBEF","#EFF3FF","#6BAED6","#08519C"))(200),
+         type = "upper", order = "hclust", number.cex = 1, #number.font = 2, #addCoefasPercent = "black",
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col = "black", tl.srt = 45, tl.cex = 1.3, #tl.pos = "ld",
+         # Combine with significance level
+         p.mat = p_mat1, sig.level = 0.05, cl.cex = 1.2, pch.cex=3,
+         # hide correlation coefficient on the principal diagonal
+         diag = FALSE)
 
 conti2 <- rndceo2017[,c("size","bm","fcf","hhi","opperf","leverage","tobinsq","salesgrowth","cashratio",
                        "intan","invest","ceoage")]
@@ -368,7 +395,7 @@ conti2 <- conti2[(conti2$leverage>-Inf)&(conti2$cashratio>-Inf)&(conti2$invest>-
 cor_52 <- rcorr(as.matrix(conti2), type = "spearman")
 M2 <- cor_52$r
 p_mat2 <- cor_52$P
-par(mfrow=c(1,2))
+par(mfrow=c(1,1))
 corrplot(M2, type = "upper", order = "hclust", tl.col = "black", tl.srt = 45,
          col = colorRampPalette(c("darkslategrey","white","orange"))(200),
          p.mat = p_mat2, sig.level = 0.05, diag = FALSE)
@@ -380,27 +407,41 @@ corrplot(M2, method = "color", col = colorRampPalette(c("darkslategrey","white",
          p.mat = p_mat2, sig.level = 0.05,
          # hide correlation coefficient on the principal diagonal
          diag = FALSE)
+##
+corrplot(M2, method = "color", col = colorRampPalette(c("#9C5308","#D6936B","#FFFBEF","#EFF3FF","#6BAED6","#08519C"))(200),
+         type = "upper", order = "hclust", number.cex = 1.3, #number.font = 2, #addCoefasPercent = "black",
+         addCoef.col = "black", # Add coefficient of correlation
+         tl.col = "black", tl.srt = 45, tl.cex = 1.5, #tl.pos = "ld",
+         # Combine with significance level
+         p.mat = p_mat2, sig.level = 0.05, cl.cex = 1.2, pch.cex=5,
+         # hide correlation coefficient on the principal diagonal
+         diag = FALSE)
 
 
 ii1 <- ggplot(rndceo2017t, aes(x=tobinsq, y=bm)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  labs(x="Tobin's Q", y="BM")
+  geom_point(color='black', cex=.3) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Tobin's Q", y="BM") +
+  theme_linedraw(base_size = 18)
 
 ii2 <- ggplot(rndceo2017t, aes(x=opperf, y=bm)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  labs(x="OPPERF", y="BM")
-
+  geom_point(color='black', cex=.3) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="OPPERF", y="BM") +
+  theme_linedraw(base_size = 18)
+  
 ii3 <- ggplot(rndceo2017t, aes(x=tobinsq, y=opperf)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  labs(x="Tobin's Q", y="OPPERF")
+  geom_point(color='black', cex=.3) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="Tobin's Q", y="OPPERF") +
+  theme_linedraw(base_size = 18)
 
 ii4 <- ggplot(rndceo2017t, aes(x=fcf, y=opperf)) + 
-  geom_point(color='darkslategrey', cex=.3) +
-  geom_smooth(method = 'lm', se=T, color='orange', cex=1) +
-  labs(x="FCF", y="OPPERF")
+  geom_point(color='black', cex=.3) +
+  geom_smooth(method = 'lm', se=T, color='#4292C6', cex=1) +
+  labs(x="FCF", y="OPPERF") +
+  theme_linedraw(base_size = 18)
+
 multiplot(ii1, ii2, ii3, ii4, cols=2)
 
 pie + scale_fill_brewer("Blues") + blank_theme +
@@ -455,222 +496,226 @@ transf["arcsinrndratio"] <- d(Arcsine())(transf$rndratio)
 
 
 # non transformation
-fcf hhi opperf roa intan ceoage ceopayslice
+# fcf hhi opperf roa intan ceoage ceopayslice
 n1 <- ggplot(rndceo2017, aes(x=fcf, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.03, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.03, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="FCF", y="Density")
+  labs(x="FCF", y=NULL) +
+  theme_linedraw(base_size = 18)
 n2 <- ggplot(rndceo2017, aes(x=hhi, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.008, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.008, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="HHI", y="Density")
+  labs(x="HHI", y=NULL) +
+  theme_linedraw(base_size = 18)
 n3 <- ggplot(rndceo2017, aes(x=opperf, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.03, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.03, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Operating performance", y="Density")
+  labs(x="Operating performance", y=NULL) +
+  theme_linedraw(base_size = 18)
 n4 <- ggplot(rndceo2017, aes(x=roa, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.03, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.03, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="ROA", y="Density")
+  labs(x="ROA", y=NULL) +
+  theme_linedraw(base_size = 18)
 n5 <- ggplot(rndceo2017, aes(x=intan, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.01, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.01, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Intangibility", y="Density")
+  labs(x="Intangibility", y=NULL) +
+  theme_linedraw(base_size = 18)
 n6 <- ggplot(rndceo2017, aes(x=ceoage, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="CEO's age", y="Density")
+  labs(x="CEO's age", y=NULL) +
+  theme_linedraw(base_size = 18)
 n7 <- ggplot(rndceo2017, aes(x=ceopayslice, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.01, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.01, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="CEO's payslice", y="Density")
+  labs(x="CEO's payslice", y=NULL) +
+  theme_linedraw(base_size = 18)
 multiplot(n1, n2, n3, n4, n5, n6, n7, cols=3)
 
 # Log transformation set A
-size leverage tobinsq cashratio
+#size leverage tobinsq cashratio
 la1 <- ggplot(transf, aes(x=expsize)) +
-  geom_histogram(binwidth = 30000, fill = "orange", colour = "black", alpha=.7) +
-  labs(x="Firm size: total assets", y="Count")
+  geom_histogram(binwidth = 30000, fill = "#4292C6", colour = "black", alpha=.7) +
+  labs(x="Size", y=NULL) +
+  theme_linedraw(base_size = 18)
 la2 <- ggplot(transf, aes(x=leverage, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.01, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.01, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Leverage", y="Density")
+  labs(x="Leverage", y=NULL) +
+  theme_linedraw(base_size = 18)
 la3 <- ggplot(transf, aes(x=tobinsq, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Tobins' Q", y="Density")
+  labs(x="Tobins' Q", y=NULL) +
+  theme_linedraw(base_size = 18)
 la4 <- ggplot(transf, aes(x=cashratio, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.01, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.01, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Cash ratio", y="Density")
+  labs(x="Cash ratio", y=NULL) +
+  theme_linedraw(base_size = 18)
 la5 <- ggplot(transf, aes(x=size, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (Firm size: total assets)", y="Density")
+  labs(x="log (Size)", y=NULL) +
+  theme_linedraw(base_size = 18)
 la6 <- ggplot(transf, aes(x=logleverage, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (Leverage)", y="Density")
+  labs(x="log (Leverage)", y=NULL) +
+  theme_linedraw(base_size = 18)
 la7 <- ggplot(transf, aes(x=logtobinsq, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.05, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.05, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (Tobins' Q)", y="Density")
+  labs(x="log (Tobins' Q)", y=NULL) +
+  theme_linedraw(base_size = 18)
 la8 <- ggplot(transf, aes(x=logcashratio, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (Cash ratio)", y="Density")
+  labs(x="log (Cash ratio)", y=NULL) +
+  theme_linedraw(base_size = 18)
 multiplot(la1, la2, la3, la4, la5, la6, la7, la8, cols=2)
 
 # Log transformation set B
 lb1 <- ggplot(transf, aes(x=invest, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.5, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.5, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Investment ratio", y="Density")
+  labs(x="Investment ratio", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb2 <- ggplot(transf, aes(x=ceocomp, y=..density..)) +
-  #geom_histogram(binwidth=800, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=800, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=800, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="CEO's compensation", y="Density")
+  labs(x="CEO's compensation", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb3 <- ggplot(transf, aes(x=ceoequity)) +
-  geom_histogram(binwidth=0.01, fill = "orange", colour = "black", alpha=.7) +
-  labs(x="CEO's equity", y="Count")
+  geom_histogram(binwidth=0.01, fill = "#4292C6", colour = "black", alpha=.7) +
+  labs(x="CEO's equity", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb4 <- ggplot(transf, aes(x=ceotenure, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.4, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.4, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="CEO's tenure", y="Density")
+  labs(x="CEO's tenure", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb5 <- ggplot(transf, aes(x=loginvest, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.05, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.05, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (Investment ratio)", y="Density")
+  labs(x="log (Investment ratio)", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb6 <- ggplot(transf, aes(x=logcomp, y=..density..)) +
-  #geom_histogram(binwidth=0.1, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.1, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.1, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (CEO's compensation)", y="Density")
+  labs(x="log (CEO's compensation)", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb7 <- ggplot(transf, aes(x=logequity, y=..density..)) +
-  #geom_histogram(binwidth=0.05, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +# alpha 반투명
-  geom_histogram(binwidth=0.08, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.08, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (CEO's equity)", y="Density")
+  labs(x="log (CEO's equity)", y=NULL) +
+  theme_linedraw(base_size = 18)
 lb8 <- ggplot(transf, aes(x=logtenure, y=..density..)) +
-  #geom_histogram(binwidth=0.05, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +# alpha 반투명
-  geom_histogram(binwidth=0.05, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.05, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (CEO's tenure)", y="Density")
+  labs(x="log (CEO's tenure)", y=NULL) +
+  theme_linedraw(base_size = 18)
 multiplot(lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8, cols=2)
 
 # Square root transforamtion
-bm salesgrowth
+# bm salesgrowth
 s1 <- ggplot(transf, aes(x=bm)) +
-  geom_histogram(binwidth = 2, fill = "orange", colour = "black", alpha=.7) +
-  labs(x="BM", y="Count")
+  geom_histogram(binwidth = 2, fill = "#4292C6", colour = "black", alpha=.7) +
+  labs(x="BM", y=NULL) +
+  theme_linedraw(base_size = 18)
 s2 <- ggplot(transf, aes(x=sqrtbm, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.15, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.15, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="sqrt (BM)", y="Density")
+  labs(x="sqrt (BM)", y=NULL) +
+  theme_linedraw(base_size = 18)
 s3 <- ggplot(transf, aes(x=salesgrowth, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.08, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.08, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="Sales growth", y="Density")
+  labs(x="Sales growth", y=NULL) +
+  theme_linedraw(base_size = 18)
 s4 <- ggplot(transf, aes(x=sqrtsalesgrowth, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.03, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.03, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="sqrt (Sales growth)", y="Density")
+  labs(x="sqrt (Sales growth)", y=NULL) +
+  theme_linedraw(base_size = 18)
 multiplot(s1, s3, s2, s4, cols=2)
 
 # R&D ratio transformation
 r1 <- ggplot(transf, aes(x=rndratio, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.008, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.008, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="R&D ratio", y="Density")
+  labs(x="R&D ratio", y=NULL) +
+  theme_linedraw(base_size = 18)
 r2 <- ggplot(transf, aes(x=sqrtrndratio, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.008, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.008, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="sqrt (R&D ratio)", y="Density")
+  labs(x="sqrt (R&D ratio)", y=NULL) +
+  theme_linedraw(base_size = 18)
 r3 <- ggplot(transf, aes(x=logrndratio, y=..density..)) +
-  #geom_histogram(binwidth=0.5, fill = "orange", colour = "black") +
-  geom_density(fill = "orange", colour=NA, alpha=.5) +
-  geom_histogram(binwidth=0.07, fill = "orange", colour = "black", alpha=.7) +
+  geom_density(fill = "#4292C6", colour=NA, alpha=.5) +
+  geom_histogram(binwidth=0.07, fill = "#4292C6", colour = "black", alpha=.7) +
   geom_line(stat="density") +
   expand_limits(y=0) +
-  labs(x="log (R&D ratio)", y="Density")
+  labs(x="log (R&D ratio)", y=NULL) +
+  theme_linedraw(base_size = 18)
 r4 <- ggplot(transf, aes(x=arcsinrndratio)) +
-  geom_histogram(binwidth = 0.003, fill = "orange", colour = "black", alpha=.7) +
-  labs(x="arcsin (R&D ratio)", y="Count")
+  geom_histogram(binwidth = 0.003, fill = "#4292C6", colour = "black", alpha=.7) +
+  labs(x="arcsin (R&D ratio)", y=NULL) +
+  theme_linedraw(base_size = 18)
 multiplot(r1, r2, r3, r4, cols=2)
 
 skewness(transf$salesgrowth)
@@ -772,139 +817,121 @@ colnames(invcm)[1] <- "abbr"
 invcm <- merge(fips_info(), invcm, by="abbr", all.x=TRUE)
 
 # Number of firms
-plot_usmap(data=statelength, values="number", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "count", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=30, hjust = 0.5), legend.title = element_text(size=15)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
-  labs(title = "Count")
+plot_usmap(data=statelength, values="number", color="#3182BD", size=0.1, labels=TRUE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", name = NULL, label=scales::comma) + 
+  theme(legend.position = "right", legend.text = element_text(size=13)) 
+  #legend.title = element_text(size=15), plot.title = element_text(size=10, hjust = 0.5) 
+  #theme(panel.background = element_rect(colour = "black"))
 
 # RNDRATIO: A firm’s R&D expenditure (divided by total assets)
-plot_usmap(data=decm, values="rndratio", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "R&D ratio", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=30, hjust = 0.5), legend.title = element_text(size=15)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
-  labs(title = "R&D ratio")
+plot_usmap(data=decm, values="rndratio", color="#3182BD", size=0.1, labels=TRUE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", name = NULL, label=scales::comma) + 
+  theme(legend.position = "right", legend.text = element_text(size=13))
 
 # SIZE: Firm size (log total assets)
-us1 <- plot_usmap(data=statemean, values="size", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "size", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us1 <- plot_usmap(data=statemean, values="size", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Size")
 
 # BM: Book-to-market (book value of equity divided by market value of equity)
-us2 <- plot_usmap(data=statemean, values="bm", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "BM", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us2 <- plot_usmap(data=statemean, values="bm", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "BM")
 
 # Free Cash Flow
-us3 <- plot_usmap(data=statemean, values="fcf", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "FCF", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us3 <- plot_usmap(data=statemean, values="fcf", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "FCF")
 
 # HHI (Herfindhal-Hirschman Index)
-us4 <- plot_usmap(data=statemean, values="hhi", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "HHI", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us4 <- plot_usmap(data=statemean, values="hhi", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "HHI")
 
 # OPPERF: Operating performance (divided by total assets)
-us5 <- plot_usmap(data=statemean, values="opperf", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "opperf", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us5 <- plot_usmap(data=statemean, values="opperf", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Operating performance")
 
 # LEVERAGE: Market value of a firm’s leverage (divided by total mark-to-market assets)
-us6 <- plot_usmap(data=levcm, values="leverage", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "leverage", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us6 <- plot_usmap(data=levcm, values="leverage", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Leverage")
 
 # Tobin's Q
-us7 <- plot_usmap(data=statemean, values="tobinsq", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "Tobin's Q", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us7 <- plot_usmap(data=statemean, values="tobinsq", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Tobin's Q")
 
 # ROA
-plot_usmap(data=statemean, values="roa", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "ROA", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+plot_usmap(data=statemean, values="roa", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "ROA")
 
 # Sales Growth
-us8 <- plot_usmap(data=statemean, values="salesgrowth", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "sales growth", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
-  labs(title = "Sales growth")
+us8 <- plot_usmap(data=statemean, values="salesgrowth", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
+  labs(title = "Salges growth")
 
 # CASHRATIO: A firm’s cash holdings (divided by total assets)
-us9 <- plot_usmap(data=cashcm, values="cashratio", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "cash ration", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us9 <- plot_usmap(data=cashcm, values="cashratio", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Cash ratio")
 
 # INTAN: Intangibility measure. The higher this number, the more intangible a firm’s assets ((total assets – property, plants, and equipments value)/total assets)
-us10 <- plot_usmap(data=statemean, values="intan", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "intan", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us10 <- plot_usmap(data=statemean, values="intan", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Intangibility")
 
 # INVEST: A firm’s investment ratio (investment / property, plants, and equipments value)
-us11 <- plot_usmap(data=invcm, values="invest", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "ivestment", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us11 <- plot_usmap(data=invcm, values="invest", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "Investment")
 
 # CEOAGE: CEO’s age
-us12 <- plot_usmap(data=statemean, values="ceoage", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "CEO age", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+us12 <- plot_usmap(data=statemean, values="ceoage", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "CEO age")
 
 # CEOCOMP: CEO’s total compensation, in $1000s
-plot_usmap(data=statemean, values="ceocomp", color="orange", labels=TRUE) + 
+plot_usmap(data=statemean, values="ceocomp", color="orange", labels=FALSE) + 
   scale_fill_continuous(low = "white", high="orange", name = "CEO comp", label=scales::comma) + 
   theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
   theme(panel.background = element_rect(colour = "black")) + 
   labs(title = "CEO compensation")
 
 # CEOPAYSLICE: Bebchuk, Cremers, and Peyer (2011) argue this is a good measure of how powerful a CEO is within the company. It is the CEO’s compensation divided by the firm’s top 5- earning directors’ total compensation (the higher this number, the more disproportionately highly a CEO is compensated within the top management team)
-plot_usmap(data=statemean, values="ceopayslice", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "CEO payslice", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+plot_usmap(data=statemean, values="ceopayslice", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "CEO payslice")
 
 # CEOEQUITY: CEO’s holdings of the firm’s stock
-plot_usmap(data=statemean, values="ceoequity", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "CEO equity", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+plot_usmap(data=statemean, values="ceoequity", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "CEO equity")
 
 # CEOTENURE: CEO’s tenure in his or her current position, in years
-plot_usmap(data=statemean, values="ceotenure", color="orange", labels=TRUE) + 
-  scale_fill_continuous(low = "white", high="orange", name = "CEO tenure", label=scales::comma) + 
-  theme(legend.position = "right", plot.title = element_text(size=20, hjust = 0.5), legend.title = element_text(size=10)) + 
-  theme(panel.background = element_rect(colour = "black")) + 
+plot_usmap(data=statemean, values="ceotenure", color="#3182BD", size=0.1, labels=FALSE) + 
+  scale_fill_continuous(low = "#EFF3FF", high="#4292C6", guide = guide_none()) + 
+  theme(plot.title = element_text(size=20, hjust = 0.5)) + 
   labs(title = "CEO tenure")
 
-multiplot(us1, us2, us3, us4, us5, us6, us7, us8, us9, us10, us11, us12, cols=3)
+multiplot(us1, us2, us3, us4, us5, us6, us7, us8, us9, us10, us11, us12, cols=4)
 
 
 
