@@ -44,7 +44,7 @@ require(tikzDevice)
 
 # Setting and import data set
 getwd()
-setwd("/Users/sannul/Google Drive(sannul@hanyang.ac.kr)/Mathematics/Math Capstone PBL (Data Analysis)/Project 1")
+setwd("/Users/JunwooYang/Google Drive (junwooyang@hanyang.ac.kr)/Mathematics/Math Capstone PBL (Data Analysis)/Project 1")
 
 rm(list = ls(all.names = TRUE))
 gc()
