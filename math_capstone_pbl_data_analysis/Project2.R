@@ -27,6 +27,7 @@ install.packages("fmsb")
 install.packages("ROCR")
 install.packages("reshape2")
 install.packages(c("vcd"), dep=TRUE)
+install.packages("gmodels")
 
 library(ggplot2)
 library(corrplot)
@@ -60,6 +61,7 @@ library(car)
 library(ROCR)
 library(reshape2)
 library(vcd)
+library(gmodels)
 
 # setwd
 getwd()
@@ -92,6 +94,7 @@ funda2010_vif <- read.csv("funda2010_vif.csv", na = c("", "NA", "N/A"))
 funda2000uscf <- read.csv("funda2000uscf.csv", na = c("", "NA", "N/A"))
 funda2000all <- read.csv("funda2000all.csv", na = c("", "NA", "N/A"))
 funda2010_ttest <- read.csv("funda2010_ttest.csv", na = c("", "NA", "N/A"))
+funda2010_44 <- read.csv("funda2010_44.csv", na = c("", "NA", "N/A"))
 
 # Data for Counties and Cities
 uscities <- read.csv("uscities.csv", na = c("", "NA", "N/A"))
@@ -166,6 +169,11 @@ colnames(x4) <- c("year","B + L")
 table1 <- merge(merge(merge(x1, x2), x3, all.x=TRUE), x4)
 table1$Liquidation[is.na(table1$Liquidation)] <- 0
 stargazer(as.matrix(table1))
+table(funda2010$dldte)
+table(funda2010$dlrsn)
+help(CrossTable)
+CrossTable(funda2010$dldte, funda2010$dlrsn, prop.r = FALSE, prop.c = FALSE, prop.t = FALSE, prop.chisq = FALSE)[1]
+stargazer(CrossTable(funda2010$dldte, funda2010$dlrsn, prop.r = FALSE, prop.c = FALSE, prop.t = FALSE, prop.chisq = FALSE)[1])
 
 ### Adding county fips and census region by merging with uscities
 uscities <- read.csv("uscities.csv", na = c("", "NA", "N/A"))
@@ -998,7 +1006,16 @@ table(fitting_df[test,]$idbflag)
 table(fitting_df$fic)
 colnames(fitting_df[test,])
 
-#-------------------------------------------------xxxxx
+#----------------------------------------------------------------------------------------------------------------
+
+train <- as.integer(c(sample(rownames(subset(fitting_df, BL==1)), size=60, replace=F), sample(rownames(subset(fitting_df, BL==0)), size=600, replace=F)))
+test <- as.integer(c(rownames(subset(fitting_df[-train,], BL==1)), sample(rownames(subset(fitting_df[-train,], BL==0)), size=160, replace=F)))
+
+write.csv(fitting_df[train,],'fitting_train.csv',row.names=F)
+write.csv(fitting_df[test,],'fitting_test.csv',row.names=F)
+
+
+#--------------------------------------------------------------------------------------------------------------
 
 ##---test with training set
 # calculate the probabilities on test set
